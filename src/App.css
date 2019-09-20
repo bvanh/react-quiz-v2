@@ -1,22 +1,76 @@
-.App {
+body {
+  background-color: #093038 !important;
+  font-family: monospace !important;
+  font-size: 1em !important;
+  text-align: center !important;
+}
+.start{
+  margin:10rem auto;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width:70%;
   color: white;
+  font-weight: bold !important;
+  text-transform: uppercase;
 }
-
-.App-link {
-  color: #09d3ac;
+h1{
+  font-weight: bold !important;
+  text-transform: uppercase;
+}
+h3{
+  padding-bottom:2rem;
+}
+.a{
+  margin-top:5rem;
+  font-weight: bold !important;
+  color: #fff
+}
+.quiz{
+  background-color: #fff;
+	box-shadow: 0 3px 2px 1px rgba(0,0,0,0.2),
+		0 0 6px 3px rgba(0,0,0,0.05);
+	margin: 3rem  auto 10rem;
+	padding: 20px;
+	width: 66%;
+}
+.choice{
+  background-color: tomato;
+	border: none;
+	border-radius: 30px;
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4),
+		0 0 2px 1px rgba(0,0,0,0.1);
+	cursor: pointer;
+	color: #fff;
+	font-size: 1rem;
+	padding: 15px 30px;
+	margin: 10px 5px 30px;
+	transition: all 0.1s ease-in;
+}
+.choice:hover{
+  box-shadow: 0 6px 6px 0 rgba(0,0,0,0.25),
+  0 0 4px 2px rgba(0,0,0,0.05);
+transform: translateY(-2px);
+}
+.choice:focus{
+  outline: 0;
+}
+footer {
+	border-top: 1px solid #ccc;
+	font-size: 0.9rem;
+	margin: 20px 0 30px;
+}
+#progress { 
+  float: left;
+  padding-top :1rem;
+ }
+#score { 
+	float: right;
+  font-weight: bold;
+  padding-top:1rem;
+}
+.btn{
+  padding-top:1rem !important;
+  margin:0 auto !important;
+}
+#time{
+  margin:0 auto !important;
 }
