@@ -56,21 +56,39 @@ transform: translateY(-2px);
 footer {
 	border-top: 1px solid #ccc;
 	font-size: 0.9rem;
-	margin: 20px 0 30px;
+  margin: 20px 0 30px;
+  display: flex !important;
+  justify-content: space-between !important;
+  text-align: center !important;
 }
 #progress { 
-  float: left;
+  /* float: left; */
   padding-top :1rem;
- }
-#score { 
-	float: right;
+}
+.btn1{
+  padding-top:1rem !important;
+  margin:0 auto !important;
+  opacity: .5;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  font-size: 1rem;
+}
+.btn2{
+  padding-top:1rem !important;
+  margin:0 auto !important;
+  opacity: 1;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  font-size: 1rem;
+  outline: none !important;
+}
+#time{
   font-weight: bold;
   padding-top:1rem;
 }
-.btn{
-  padding-top:1rem !important;
-  margin:0 auto !important;
-}
-#time{
-  margin:0 auto !important;
+.selected{
+  background-color: rgb(20, 40, 82);
+  transition: all ease-in-out 400ms;
 }

@@ -37,17 +37,58 @@ class App extends React.Component {
       currentquiz: '',
       totalcorrect: 0,
       isanswered: false,
+      statusbtn: ['btn1', true],
+      statusanswer: ['choice', 'choice', 'choice', 'choice']
 
     }
   }
+  // nút start
   startQuiz(currentQuiz) {
-    currentQuiz=0;
+    currentQuiz = 0;
+    this.setState({
+      currentquiz: currentQuiz
+    })
+  }
+  // trạng thái chọn
+  chooseAnswer(index) {
+    // trạng thái đã chọn
+    let newStatusAnswer = this.state.statusanswer.slice();
+    newStatusAnswer = ['choice', 'choice', 'choice', 'choice'];
+    newStatusAnswer[index] += ' selected';
+    // trạng thái nút 
+    let newStatusbtn = this.state.statusbtn.slice();
+    newStatusbtn = ['btn1', true];
+    newStatusbtn[0] = 'btn2';
+    newStatusbtn[1] = false;
+    this.setState({
+      statusanswer: newStatusAnswer,
+      statusbtn: newStatusbtn
+    })
+  }
+  // next quiz
+  nextQuestion(currentQuiz) {
+    // trạng thái đã chọn
+    let newStatusAnswer = this.state.statusanswer.slice();
+    newStatusAnswer = ['choice', 'choice', 'choice', 'choice'];
+    // trạng thái nút 
+    let newStatusbtn = this.state.statusbtn.slice();
+    newStatusbtn = ['btn1', true];
+    currentQuiz++;
+    this.setState({
+      currentquiz: currentQuiz,
+      statusanswer: newStatusAnswer,
+      statusbtn: newStatusbtn
+    })
+  }
+  // back quiz
+  backQuestion(currentQuiz){
+    currentQuiz--;
     this.setState({
       currentquiz:currentQuiz
     })
   }
   render() {
-    const { listquiz, currentquiz, totalcorrect, isanswered } = this.state
+    const { listquiz, currentquiz, totalcorrect, isanswered, statusbtn, statusanswer } = this.state
     return (
       <div className="App">
         <Home
@@ -58,6 +99,11 @@ class App extends React.Component {
           listQuiz={listquiz}
           currentQuiz={currentquiz}
           isAnswer={isanswered}
+          statusButton={statusbtn}
+          statusAnswer={statusanswer}
+          checkAnswer={this.chooseAnswer.bind(this)}
+          nextQuestion={this.nextQuestion.bind(this)}
+          backQuestion={this.backQuestion.bind(this)}
         />
 
       </div>
