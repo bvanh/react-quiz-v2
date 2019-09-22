@@ -41,7 +41,7 @@ class App extends React.Component {
 
       ],
       currentquiz: '',
-      totalcorrect: 0,
+      totalcorrect: [0,0,0,0,0],
       isanswered: false,
       statusbtn: ['btn1', false, true, false],
 
@@ -60,7 +60,7 @@ class App extends React.Component {
     })
   }
   // trạng thái chọn
-  chooseAnswer(currentQuiz, index) {
+  chooseAnswer(answer,correct,currentQuiz,index) {
     // trạng thái đã chọn
     let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
     newStatuslistquiz[currentQuiz].status = ['choice', 'choice', 'choice', 'choice'];
@@ -68,12 +68,20 @@ class App extends React.Component {
     // trạng thái nút 
     let newStatusbtn = this.state.statusbtn.slice();
     newStatusbtn[2] = false;
+    // check answer
+    let newCorrect=this.state.totalcorrect;
+    if(answer===correct){
+      newCorrect[currentQuiz]=1;
+    }else{
+      newCorrect[currentQuiz]=0;
+    }
     this.setState({
       statusbtn: newStatusbtn,
       listquiz: newStatuslistquiz,
       currentquiz: currentQuiz,
+      totalcorrect:newCorrect
     })
-    console.log(newStatusbtn, currentQuiz)
+    console.log(this.state.totalcorrect)
   }
   // next quiz
   nextQuestion(currentQuiz) {
@@ -123,7 +131,24 @@ class App extends React.Component {
     this.setState({
       listquiz: newStatuslistquiz,
       currentquiz: 0,
-      statusbtn: newStatusbtn
+      statusbtn: newStatusbtn,
+      totalcorrect: [0,0,0,0,0]
+    })
+  }
+  backHome(){
+    let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
+    newStatuslistquiz[0].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[1].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[2].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[3].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[4].status = ['choice', 'choice', 'choice', 'choice'];
+    let newStatusbtn = this.state.statusbtn.slice();
+    newStatusbtn = ['btn1', true, true, false];
+    this.setState({
+      listquiz: newStatuslistquiz,
+      currentquiz:'',
+      statusbtn: newStatusbtn,
+      totalcorrect:[0,0,0,0,0]
     })
   }
   render() {
@@ -144,12 +169,15 @@ class App extends React.Component {
           nextQuestion={this.nextQuestion.bind(this)}
           backQuestion={this.backQuestion.bind(this)}
           submitQuestion={this.submit.bind(this)}
+          newCorrect={totalcorrect}
         />
         <Result
           listQuiz={listquiz}
           statusButton={statusbtn}
           currentQuiz={currentquiz}
           resetQuiz={this.resetQuiz.bind(this)}
+          newCorrect={totalcorrect}
+          backHome={this.backHome.bind(this)}
 
 
         />

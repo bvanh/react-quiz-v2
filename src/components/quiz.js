@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'reactstrap';
 
 function Quiz(props) {
-    const { listQuiz, currentQuiz, isAnswer, statusButton} = props
+    const { listQuiz, currentQuiz, isAnswer, statusButton,newCorrect} = props
 
     if (currentQuiz !== ''&& currentQuiz>= 0) {
         const pritQuiz = listQuiz[currentQuiz] || {};
@@ -12,7 +12,7 @@ function Quiz(props) {
         const listAnswer = pritQuiz.answer || [];
         const printAnswer = listAnswer.map((answer, index) =>
 
-            <button className={statusAnswer[index]} key={index} onClick={() => props.checkAnswer(currentQuiz,index)}>{answer}</button>
+            <button className={statusAnswer[index]} key={index} onClick={() => props.checkAnswer(answer,correct,currentQuiz,index)}>{answer}</button>
 
         )
         return (
