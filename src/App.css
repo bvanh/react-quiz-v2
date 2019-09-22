@@ -68,15 +68,6 @@ footer {
 .btn1{
   padding-top:1rem !important;
   margin:0 auto !important;
-  opacity: .5;
-  cursor: pointer;
-  background: none;
-  border: 0;
-  font-size: 1rem;
-}
-.btn2{
-  padding-top:1rem !important;
-  margin:0 auto !important;
   opacity: 1;
   cursor: pointer;
   background: none;

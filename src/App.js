@@ -2,6 +2,7 @@ import React from 'react';
 import Home from './components/home';
 import Quiz from './components/quiz';
 import './App.css';
+import Result from './components/result';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,26 +11,31 @@ class App extends React.Component {
         {
           question: 'Who is stronger than Thanos ?',
           answer: ['Surtur', 'Thor', 'Black Panther', 'Iron man'],
+          status: ['choice', 'choice', 'choice', 'choice'],
           correct: 'Surtur'
         },
         {
           question: `What's the value of 1 + 1 ?`,
           answer: [2, 3, 4, 5],
+          status: ['choice', 'choice', 'choice', 'choice'],
           correct: 2
         },
         {
           question: 'How many countries in the world ?',
           answer: [193, 194, 195, 196],
+          status: ['choice', 'choice', 'choice', 'choice'],
           correct: 195
         },
         {
           question: 'Who is god in DC universe?',
           answer: ['The Presence', 'Batman', 'The One Above All', 'Green Lantern'],
+          status: ['choice', 'choice', 'choice', 'choice'],
           correct: 'Batman'
         },
         {
           question: '1 + 2 + 3 + ..... + 99 = ?',
           answer: [4850, 4580, 4950, 4590],
+          status: ['choice', 'choice', 'choice', 'choice'],
           correct: 4950
         }
 
@@ -37,73 +43,115 @@ class App extends React.Component {
       currentquiz: '',
       totalcorrect: 0,
       isanswered: false,
-      statusbtn: ['btn1', true],
-      statusanswer: ['choice', 'choice', 'choice', 'choice']
+      statusbtn: ['btn1', false, true, false],
 
     }
   }
   // nút start
   startQuiz(currentQuiz) {
     currentQuiz = 0;
-    this.setState({
-      currentquiz: currentQuiz
-    })
-  }
-  // trạng thái chọn
-  chooseAnswer(index) {
-    // trạng thái đã chọn
-    let newStatusAnswer = this.state.statusanswer.slice();
-    newStatusAnswer = ['choice', 'choice', 'choice', 'choice'];
-    newStatusAnswer[index] += ' selected';
-    // trạng thái nút 
     let newStatusbtn = this.state.statusbtn.slice();
-    newStatusbtn = ['btn1', true];
-    newStatusbtn[0] = 'btn2';
-    newStatusbtn[1] = false;
+    if (currentQuiz === 0) {
+      newStatusbtn[1] = true;
+    }
     this.setState({
-      statusanswer: newStatusAnswer,
+      currentquiz: currentQuiz,
       statusbtn: newStatusbtn
     })
   }
-  // next quiz
-  nextQuestion(currentQuiz) {
+  // trạng thái chọn
+  chooseAnswer(currentQuiz, index) {
     // trạng thái đã chọn
-    let newStatusAnswer = this.state.statusanswer.slice();
-    newStatusAnswer = ['choice', 'choice', 'choice', 'choice'];
+    let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
+    newStatuslistquiz[currentQuiz].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[currentQuiz].status[index] += ' selected';
     // trạng thái nút 
     let newStatusbtn = this.state.statusbtn.slice();
-    newStatusbtn = ['btn1', true];
+    newStatusbtn[2] = false;
+    this.setState({
+      statusbtn: newStatusbtn,
+      listquiz: newStatuslistquiz,
+      currentquiz: currentQuiz,
+    })
+    console.log(newStatusbtn, currentQuiz)
+  }
+  // next quiz
+  nextQuestion(currentQuiz) {
     currentQuiz++;
+    let newStatusbtn = this.state.statusbtn.slice();
+    if (currentQuiz === 4) {
+      newStatusbtn[3] = true;
+
+    } else if (currentQuiz > 0) {
+      newStatusbtn[1] = false;
+    }
     this.setState({
       currentquiz: currentQuiz,
-      statusanswer: newStatusAnswer,
       statusbtn: newStatusbtn
     })
   }
   // back quiz
-  backQuestion(currentQuiz){
+  backQuestion(currentQuiz) {
     currentQuiz--;
+    let newStatusbtn = this.state.statusbtn.slice();
+    if (currentQuiz === 0) {
+      newStatusbtn[1] = true;
+    } else if (currentQuiz > 0) {
+      newStatusbtn[3] = false;
+    }
     this.setState({
-      currentquiz:currentQuiz
+      currentquiz: currentQuiz,
+      statusbtn: newStatusbtn
+    })
+  }
+  submit(currentQuiz) {
+    currentQuiz = 'result';
+    this.setState({
+      currentquiz: currentQuiz
+    })
+  }
+  // trang result
+  resetQuiz() {
+    let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
+    newStatuslistquiz[0].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[1].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[2].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[3].status = ['choice', 'choice', 'choice', 'choice'];
+    newStatuslistquiz[4].status = ['choice', 'choice', 'choice', 'choice'];
+    let newStatusbtn = this.state.statusbtn.slice();
+    newStatusbtn = ['btn1', true, true, false];
+    this.setState({
+      listquiz: newStatuslistquiz,
+      currentquiz: 0,
+      statusbtn: newStatusbtn
     })
   }
   render() {
-    const { listquiz, currentquiz, totalcorrect, isanswered, statusbtn, statusanswer } = this.state
+    const { listquiz, currentquiz, totalcorrect, isanswered, statusbtn } = this.state
     return (
       <div className="App">
         <Home
           currentQuiz={currentquiz}
           startQuiz={() => this.startQuiz()}
+          statusButton={statusbtn}
         />
         <Quiz
           listQuiz={listquiz}
           currentQuiz={currentquiz}
           isAnswer={isanswered}
           statusButton={statusbtn}
-          statusAnswer={statusanswer}
           checkAnswer={this.chooseAnswer.bind(this)}
           nextQuestion={this.nextQuestion.bind(this)}
           backQuestion={this.backQuestion.bind(this)}
+          submitQuestion={this.submit.bind(this)}
+        />
+        <Result
+          listQuiz={listquiz}
+          statusButton={statusbtn}
+          currentQuiz={currentquiz}
+          resetQuiz={this.resetQuiz.bind(this)}
+
+
         />
 
       </div>
