@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button } from 'reactstrap';
 
 function Quiz(props) {
-    const { listQuiz, currentQuiz, isAnswer, statusButton,newCorrect} = props
+    const { listQuiz, currentQuiz,statusButton,newMinute,newSeconds} = props
 
     if (currentQuiz !== ''&& currentQuiz>= 0) {
         const pritQuiz = listQuiz[currentQuiz] || {};
@@ -29,7 +28,7 @@ function Quiz(props) {
                         <button className={statusButton[0]} onClick={() => props.nextQuestion(currentQuiz)} disabled={statusButton[3]}>Next</button>
                     </div>
                     <footer>
-                        <span id="progress">Question {currentQuiz + 1} of 5</span><span id='time'>00:00</span>
+                        <span id="progress">Question {currentQuiz + 1} of 5</span><span id='time'>{newMinute<10?'0'+newMinute:newMinute}:{newSeconds<10?'0'+newSeconds:newSeconds}</span>
                     </footer>
                 </div>
             </div>
