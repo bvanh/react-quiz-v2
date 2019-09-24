@@ -203,7 +203,9 @@ class App extends React.Component {
       listquiz: newStatuslistquiz,
       currentquiz: '',
       statusbtn: newStatusbtn,
-      totalcorrect: [0, 0, 0, 0, 0]
+      totalcorrect: [0, 0, 0, 0, 0],
+      minute:0,
+      seconds:0
     })
   }
   showAnswer() {
