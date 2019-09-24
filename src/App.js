@@ -72,17 +72,17 @@ class App extends React.Component {
     }, 1000)
     timeOut = setTimeout(() => {
       this.setState({
-        currentQuiz: 'result',
+        currentquiz: 'result',
       })
       clearInterval(newInterval)
-    }, 120000)
+    }, 30000)
     this.setState({
       currentquiz: currentQuiz,
       statusbtn: newStatusbtn,
       timeout: timeOut,
       interval: newInterval,
-      minute: newMinute,
-      seconds: newSeconds
+      minute: 0,
+      seconds: 0
     })
 
   }
@@ -140,13 +140,15 @@ class App extends React.Component {
     })
   }
   submit(currentQuiz) {
+    clearTimeout(this.state.timeout);
+    clearInterval(this.state.interval)
     currentQuiz = 'result';
     this.setState({
       currentquiz: currentQuiz
     })
   }
   // trang result
-  resetQuiz() {
+  resetQuiz(newMinute,newSeconds,timeOut,newInterval) {
     let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
     newStatuslistquiz[0].status = ['choice', 'choice', 'choice', 'choice'];
     newStatuslistquiz[1].status = ['choice', 'choice', 'choice', 'choice'];
@@ -155,14 +157,40 @@ class App extends React.Component {
     newStatuslistquiz[4].status = ['choice', 'choice', 'choice', 'choice'];
     let newStatusbtn = this.state.statusbtn.slice();
     newStatusbtn = ['btn1', true, true, false];
+    newMinute=0;
+    newSeconds=0;
+    newInterval = setInterval(() => {
+      if (newSeconds === 59) {
+        newMinute++;
+        newSeconds = 0;
+      } else if (newSeconds >= 0) {
+          newSeconds++;
+        }
+      this.setState({
+        minute: newMinute,
+        seconds: newSeconds
+      })
+    }, 1000)
+    timeOut = setTimeout(() => {
+      this.setState({
+        currentquiz: 'result',
+      })
+      clearInterval(newInterval)
+    }, 30000)
     this.setState({
       listquiz: newStatuslistquiz,
       currentquiz: 0,
       statusbtn: newStatusbtn,
-      totalcorrect: [0, 0, 0, 0, 0]
+      totalcorrect: [0, 0, 0, 0, 0],
+      timeout:timeOut,
+      interval:newInterval,
+      minute:0,
+      seconds:0
     })
   }
   backHome() {
+    clearTimeout(this.state.timeout);
+    clearInterval(this.state.interval);
     let newStatuslistquiz = JSON.parse(JSON.stringify(this.state.listquiz))
     newStatuslistquiz[0].status = ['choice', 'choice', 'choice', 'choice'];
     newStatuslistquiz[1].status = ['choice', 'choice', 'choice', 'choice'];
@@ -207,6 +235,7 @@ class App extends React.Component {
           newCorrect={totalcorrect}
           newMinute={minute}
           newSeconds={seconds}
+         
         />
         <Result
           listQuiz={listquiz}
@@ -218,6 +247,10 @@ class App extends React.Component {
           showAnswer={showanswer}
           isAnswer={isanswered}
           printAnswer={this.showAnswer.bind(this)}
+          newMinute={minute}
+          newSeconds={seconds}
+          timeOut={timeout}
+          newInterval={interval}
 
         />
 
