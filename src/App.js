@@ -253,7 +253,6 @@ class App extends React.Component {
           newSeconds={seconds}
           timeOut={timeout}
           newInterval={interval}
-
         />
 
       </div>
